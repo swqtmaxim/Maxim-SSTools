@@ -57,8 +57,8 @@ To build Maxim SS-Tools, you need Windows and the .NET 8 SDK.
 Clone the repository:
 
 ```bash
-git clone <repository-url>
-cd <repository-folder>
+git clone https://github.com/swqtmaxim/Maxim-SSTools.git
+cd Maxim-SSTools
 ```
 
 Open a terminal in the folder containing the required `.csproj` file and run:
