@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <SelfContained>false</SelfContained>
+    <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
+    <AssemblyTitle>Maxim SS Tools</AssemblyTitle>
+    <Product>Maxim SS Tools</Product>
+    <Company>Maxim</Company>
+    <Description>Anti-cheat screenshare review and forensics tool for Minecraft.</Description>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <Version>1.0.0</Version>
+    <FileVersion>1.0.0.0</FileVersion>
+    <PublishSingleFile>true</PublishSingleFile>
+    <!-- One small file: native libs inside the bundle, compression only when self-contained. -->
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile Condition="'$(SelfContained)' == 'true'">true</EnableCompressionInSingleFile>
+    <!-- English-only UI: dropping the other satellite resource assemblies saves ~6 MB. -->
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2535.41" />
+    <PackageReference Include="Serilog" Version="4.0.2" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="System.Management" Version="8.0.0" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="8.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="MaximApp.xaml" />
+    <EmbeddedResource Include="Assets\**\*" />
+    <EmbeddedResource Include="$(NuGetPackageRoot)microsoft.web.webview2\1.0.2535.41\runtimes\win-x64\native\WebView2Loader.dll">
+      <LogicalName>MaximTool.Native.WebView2Loader.dll</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

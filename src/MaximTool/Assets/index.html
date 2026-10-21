@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Maxim SS Tools</title>
+<link rel="icon" href="icon.ico" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+
+<div id="splash">
+  <img class="sp-logo" src="giflogo.gif" alt="Maxim" />
+  <div class="sp-name">MAXIM</div>
+  <div class="sp-sub">SS TOOLS</div>
+  <div class="sp-bar"><div class="sp-fill"></div></div>
+  <div class="sp-case">LOCAL CASE FILE · v1.0.0</div>
+</div>
+
+<header id="masthead">
+  <div class="m-brand">
+    <div class="m-logo"><img src="giflogo.gif" alt="M" /></div>
+    <div><b>MAXIM</b><small>SS-TOOLS · v1.0.0</small></div>
+  </div>
+  <div class="crumb">MAXIM / <b id="crumb">OVERVIEW</b></div>
+  <div class="m-right">
+    <span id="clock" class="mono">00:00:00</span>
+    <span class="chip-local">LOCAL</span>
+    <button id="btnMute" class="ibtn" title="Toggle sound">SND</button>
+    <button id="btnTheme" class="ibtn" title="Toggle theme">L/D</button>
+    <button id="btnMin" class="ibtn" title="Minimize">–</button>
+    <button id="btnClose" class="ibtn danger" title="Close">×</button>
+  </div>
+</header>
+
+<div id="adminBanner" class="hidden">
+  <span>■ LIMITED MODE — NO ADMINISTRATOR RIGHTS. SERVICE, EVENT AND BAM CHECKS WILL BE INCOMPLETE.</span>
+  <button id="btnAdmin2" class="btn sm primary">RELAUNCH AS ADMIN</button>
+</div>
+
+<main id="main">
+  <!-- 00 OVERVIEW -->
+  <section class="page active" id="pg-overview">
+    <div class="board">
+      <div class="rail"><span>MAXIM SS-TOOLS · EVIDENCE BOARD · HANDLE WITH CARE</span></div>
+      <div class="casefile">
+        <span class="ver">CASE DOSSIER · v1.0.0</span>
+        <h1>MAXIM <em>SS-TOOLS</em></h1>
+        <div class="sub">SEVEN EXHIBITS · ONE VERDICT — WORK TOP TO BOTTOM</div>
+        <ol class="runorder" id="runOrder">
+          <li data-go="services"><b>01</b> SERVICE SWEEP — INTEGRITY, LOGS, RECYCLE</li>
+          <li data-go="prefetch"><b>02</b> EXECUTION TRACES — PREFETCH + BAM</li>
+          <li data-go="alts"><b>03</b> IDENTITY SWEEP — ACCOUNTS + DISCORD</li>
+          <li data-go="sysinfo"><b>04</b> LIVE MEMORY — SYSTEM INFORMER + GUIDE</li>
+          <li data-go="usn"><b>05</b> JOURNAL TRACES — USN EXPLORER</li>
+          <li data-go="ev"><b>06</b> FILE HUNT — EVERYTHING</li>
+        </ol>
+        <div class="spec">
+          <div><small>CASE</small><b class="mono">LOCAL</b></div>
+          <div><small>UPLOAD</small><b class="mono">MANUAL</b></div>
+          <div><small>MODULES</small><b class="mono">08</b></div>
+          <div><small>MODE</small><b class="mono">OFFLINE</b></div>
+        </div>
+        <div class="colophon">RIGHTS: <span id="adminLine">UNKNOWN</span> · MODULES 08 · GUIDE CARDS 18 · BUILD LOCAL</div>
+      </div>
+      <div class="folders">
+        <button class="folder" data-go="services"><span class="tab">EX-01</span><span class="frow"><span class="fic">▣</span><span><h4>Service Checker</h4><p>Boot, services, event-log clears, USN journals, recycle bin.</p><span class="st"><span class="sqdot"></span>READY</span></span></span></button>
+        <button class="folder" data-go="prefetch"><span class="tab">EX-02</span><span class="frow"><span class="fic">▦</span><span><h4>Prefetch Parser</h4><p>Execution traces, signatures, rule hits, related files.</p><span class="st"><span class="sqdot"></span>READY</span></span></span></button>
+        <button class="folder" data-go="bam"><span class="tab">EX-03</span><span class="frow"><span class="fic">▧</span><span><h4>BAM Parser</h4><p>Background activity moderator registry timeline.</p><span class="st"><span class="sqdot"></span>READY</span></span></span></button>
+        <button class="folder" data-go="alts"><span class="tab">EX-04</span><span class="frow"><span class="fic">◈</span><span><h4>Alt Checker</h4><p>Minecraft accounts, Discord IDs, launchers, logs.</p><span class="st"><span class="sqdot"></span>READY</span></span></span></button>
+        <button class="folder" data-go="sysinfo"><span class="tab">EX-05</span><span class="frow"><span class="fic">▨</span><span><h4>System Informer</h4><p>Nightly downloader, live memory reader, field guide.</p><span class="st"><span class="sqdot"></span>READY</span></span></span></button>
+        <button class="folder" data-go="usn"><span class="tab">EX-06</span><span class="frow"><span class="fic">▤</span><span><h4>USN Explorer</h4><p>NTFS journal walk for exe, dll, jar and pf traces.</p><span class="st"><span class="sqdot"></span>READY</span></span></span></button>
+        <button class="folder" data-go="ev"><span class="tab">EX-07</span><span class="frow"><span class="fic">▦</span><span><h4>Everything</h4><p>Instant filename search downloader and query guide.</p><span class="st"><span class="sqdot"></span>READY</span></span></span></button>
+      </div>
+    </div>
+    <div class="card" id="caseCard"><h3>FULL CASE SCAN</h3>
+      <div class="row">
+        <button class="btn sm primary" id="runCase">▶ RUN FULL CASE SCAN</button>
+        <button class="btn sm" id="cancelCase">CANCEL</button>
+        <button class="btn sm" id="caseReport" disabled>SAVE + OPEN FULL REPORT</button>
+        <span id="caseMeta" class="meta"></span>
+      </div>
+      <div id="caseProg" class="mono"></div>
+      <div class="tiles" id="caseTiles" style="margin-top:10px"></div>
+    </div>
+  </section>
+
+  <!-- 01 SERVICES -->
+  <section class="page" id="pg-services">
+    <div class="docket-head">
+      <span class="plate">EXHIBIT A · SERVICE INTEGRITY</span>
+      <h2>SERVICE CHECKER</h2>
+      <p>Boot anomalies, watched services, event-log clears, USN journal states and recycle-bin activity for this session.</p>
+      <div class="actions">
+        <button class="btn sm" data-go="overview">← BOARD</button>
+        <button class="btn sm primary" id="runServices">▶ RUN CHECK</button>
+        <button class="btn sm" id="runTasks">▶ TASK SCAN</button>
+        <button class="btn sm" id="runLeft">▶ LEFTOVERS</button>
+        <button class="btn sm" id="cancelServices">CANCEL</button>
+        <button class="btn sm" id="expServices">EXPORT JSON</button>
+        <button class="btn sm" id="expTasks">EXPORT TASKS</button>
+        <button class="btn sm" id="expLeft">EXPORT LEFTOVERS</button>
+        <button class="btn sm warn hidden" id="btnAdmin">⚡ RUN AS ADMIN</button>
+      </div>
+    </div>
+    <div id="svcLock" class="lockline hidden"><span>■ ADMIN LOCK — ELEVATED RIGHTS REQUIRED FOR EVENTS + USN.</span><button class="btn sm warn" id="btnAdmin3">RELAUNCH AS ADMIN</button></div>
+    <div id="svcVerdict"></div>
+    <div class="tiles" id="svcTiles"></div>
+    <div id="servicesOut"></div>
+    <div class="card" id="leftCard"><h3>LEFTOVERS — TEMP · RECENT · DUMPS · HOSTS · PS HISTORY</h3>
+      <div class="filterbar">
+        <input id="leftFilter" class="search" placeholder="SEARCH: NAME, PATH, HOST…" />
+        <div class="checks" id="leftChips">
+          <label><input type="checkbox" data-k="bad" checked />BAD</label>
+          <label><input type="checkbox" data-k="warn" checked />WARN</label>
+          <label><input type="checkbox" data-k="ok" checked />OK</label>
+        </div>
+        <select id="leftSec" class="sel">
+          <option value="all">ALL SECTIONS</option>
+          <option value="temp">TEMP</option>
+          <option value="recent">RECENT</option>
+          <option value="dumps">DUMPS</option>
+          <option value="hosts">HOSTS</option>
+          <option value="hist">PS HISTORY</option>
+        </select>
+        <span id="leftMeta" class="meta"></span>
+      </div>
+      <div class="tblwrap"><div id="leftOut"><div class="empty">NO DATA — RUN LEFTOVERS.</div></div></div>
+    </div>
+    <div class="card" id="tasksCard"><h3>SCHEDULED TASKS</h3>
+      <div class="filterbar">
+        <input id="taskFilter" class="search" placeholder="SEARCH: NAME, ACTION, AUTHOR…" />
+        <div class="checks" id="taskChips">
+          <label><input type="checkbox" data-k="bad" checked />BAD</label>
+          <label><input type="checkbox" data-k="warn" checked />WARN</label>
+          <label><input type="checkbox" data-k="ok" checked />OK</label>
+          <label><input type="checkbox" data-k="boot" class="sess" />BOOT/LOGON</label>
+        </div>
+        <select id="taskSort" class="sel">
+          <option value="sev">SEVERITY FIRST</option>
+          <option value="new">NEWEST FIRST</option>
+          <option value="name">A–Z NAME</option>
+        </select>
+        <span id="tasksMeta" class="meta"></span>
+      </div>
+      <div class="tblwrap"><div id="tasksOut"><div class="empty">NO DATA — RUN TASK SCAN.</div></div></div>
+    </div>
+  </section>
+
+  <!-- 02 PREFETCH -->
+  <section class="page" id="pg-prefetch">
+    <div class="docket-head">
+      <span class="plate">EXHIBIT B · EXECUTION TRACES</span>
+      <h2>PREFETCH PARSER</h2>
+      <p>Every prefetch entry with signature state, rule hits and last-run times. Click a row for the full evidence modal.</p>
+      <div class="actions">
+        <button class="btn sm" data-go="overview">← BOARD</button>
+        <button class="btn sm primary" id="runPrefetch">▶ RUN SCAN</button>
+        <button class="btn sm" id="runAmc">▶ AMCACHE</button>
+        <button class="btn sm" id="checkRelated">VERIFY RELATED</button>
+        <button class="btn sm" id="cancelPrefetch">CANCEL</button>
+        <button class="btn sm" id="expPrefetch">EXPORT JSON</button>
+        <button class="btn sm" id="expAmc">EXPORT AMCACHE</button>
+      </div>
+    </div>
+    <div id="pfVerdict"></div>
+    <div class="tiles" id="pfTiles"></div>
+    <div class="filterbar">
+      <input id="prefetchFilter" class="search" placeholder="SEARCH: EXE, PATH, RULE…" />
+      <div class="checks" id="pfChips">
+        <label><input type="checkbox" data-k="unsigned" checked />UNSIGNED</label>
+        <label><input type="checkbox" data-k="hits" checked />RULE HITS</label>
+        <label><input type="checkbox" data-k="clean" checked />SIGNED CLEAN</label>
+        <label><input type="checkbox" data-k="missing" checked />MISSING</label>
+        <label><input type="checkbox" data-k="session" class="sess" />THIS SESSION</label>
+      </div>
+      <select id="pfSort" class="sel">
+        <option value="new">NEWEST FIRST</option>
+        <option value="old">OLDEST FIRST</option>
+        <option value="name">A–Z NAME</option>
+      </select>
+    </div>
+    <div class="timeline hidden" id="pfTime"><div class="tlabel">14-DAY EXECUTION TIMELINE</div><div class="tbars" id="pfBars"></div></div>
+    <div class="tblwrap"><div id="prefetchOut"><div class="empty">NO DATA — RUN THE SCAN.</div></div></div>
+    <div class="card"><h3>AMCACHE INVENTORY</h3>
+      <div class="filterbar">
+        <input id="amcFilter" class="search" placeholder="SEARCH: FILE, PATH…" />
+        <div class="checks" id="amcChips">
+          <label><input type="checkbox" data-k="bad" checked />BAD</label>
+          <label><input type="checkbox" data-k="warn" checked />WARN</label>
+          <label><input type="checkbox" data-k="ok" checked />OK</label>
+        </div>
+        <select id="amcSort" class="sel">
+          <option value="sev">SEVERITY FIRST</option>
+          <option value="new">NEWEST KEY</option>
+          <option value="name">A–Z FILE</option>
+        </select>
+        <span id="amcMeta" class="meta"></span>
+      </div>
+      <div class="tblwrap"><div id="amcOut"><div class="empty">NO DATA — RUN AMCACHE (ADMIN).</div></div></div>
+    </div>
+  </section>
+
+  <!-- 03 BAM -->
+  <section class="page" id="pg-bam">
+    <div class="docket-head">
+      <span class="plate">EXHIBIT C · ACTIVITY LEDGER</span>
+      <h2>BAM PARSER</h2>
+      <p>Background Activity Moderator registry: last executions, signature states and tamper flags. Click a row for details.</p>
+      <div class="actions">
+        <button class="btn sm" data-go="overview">← BOARD</button>
+        <button class="btn sm primary" id="runBam">▶ RUN SCAN</button>
+        <button class="btn sm" id="cancelBam">CANCEL</button>
+        <button class="btn sm" id="expBam">EXPORT JSON</button>
+      </div>
+    </div>
+    <div id="bamLock" class="lockline hidden"><span>■ ADMIN LOCK — BAM REGISTRY REQUIRES ELEVATED RIGHTS.</span></div>
+    <div id="bamVerdict"></div>
+    <div class="tiles" id="bamTiles"></div>
+    <div class="filterbar">
+      <input id="bamFilter" class="search" placeholder="SEARCH: PATH…" />
+      <div class="checks" id="bamChips">
+        <label><input type="checkbox" data-k="signed" checked />SIGNED</label>
+        <label><input type="checkbox" data-k="unsigned" checked />NOT SIGNED</label>
+        <label><input type="checkbox" data-k="deleted" checked />DELETED</label>
+        <label><input type="checkbox" data-k="hits" checked />RULE HITS</label>
+        <label><input type="checkbox" data-k="replace" checked />TAMPERED</label>
+        <label><input type="checkbox" data-k="session" class="sess" />THIS SESSION</label>
+      </div>
+      <select id="bamSort" class="sel">
+        <option value="new">NEWEST FIRST</option>
+        <option value="old">OLDEST FIRST</option>
+        <option value="path">A–Z PATH</option>
+      </select>
+    </div>
+    <div class="timeline hidden" id="bamTime"><div class="tlabel">14-DAY EXECUTION TIMELINE</div><div class="tbars" id="bamBars"></div></div>
+    <div class="tblwrap"><div id="bamOut"><div class="empty">NO DATA — RUN THE SCAN.</div></div></div>
+  </section>
+
+  <!-- 04 ALTS -->
+  <section class="page" id="pg-alts">
+    <div class="docket-head">
+      <span class="plate">EXHIBIT D · IDENTITY TRACES</span>
+      <h2>ALT CHECKER</h2>
+      <p>Minecraft accounts from launchers and logs, Discord IDs from clients and browsers.</p>
+      <div class="actions">
+        <button class="btn sm" data-go="overview">← BOARD</button>
+        <button class="btn sm primary" id="runAlts">▶ RUN SCAN</button>
+        <button class="btn sm" id="clearAlts">CLEAR CACHE</button>
+        <button class="btn sm" id="cancelAlts">CANCEL</button>
+        <button class="btn sm" id="expAlts">EXPORT JSON</button>
+      </div>
+    </div>
+    <div id="altsVerdict"></div>
+    <div class="tiles" id="altsTiles"></div>
+    <div class="card"><h3>MINECRAFT ACCOUNTS</h3><div id="mcList" class="list mono">—</div></div>
+    <div class="card"><h3>DISCORD IDS</h3><div id="dcList" class="list mono">—</div></div>
+    <div class="card"><h3>MACHINE IDENTITY</h3><div id="hwidBox" class="mono">—</div></div>
+    <div class="card"><h3>MC PROFILES <span class="meta">— WHERE THE GAME LIVES</span></h3><div id="altsProfList" class="list mono">—</div></div>
+    <div class="card"><h3>MINECRAFT MODS</h3><div id="modsList" class="list mono">—</div></div>
+  </section>
+
+  <!-- 05 SYSINFO -->
+  <section class="page" id="pg-sysinfo">
+    <div class="docket-head">
+      <span class="plate">EXHIBIT E · LIVE MEMORY</span>
+      <h2>SYSTEM INFORMER</h2>
+      <p>Nightly/canary downloader and launcher. Live memory work happens inside System Informer — the field manual is dock key 06.</p>
+      <div class="actions">
+        <button class="btn sm" data-go="overview">← BOARD</button>
+        <button class="btn sm primary" id="siDownload">↓ DOWNLOAD + LAUNCH CANARY</button>
+        <button class="btn sm" data-go="guide">OPEN FIELD GUIDE →</button>
+      </div>
+    </div>
+    <div id="siBanner"></div>
+    <div class="sigrid" id="siTiles"></div>
+    <div class="card"><h3>DOWNLOAD PROGRESS</h3>
+      <div class="prog"><div id="siBar"></div></div>
+      <div id="siStage" class="meta" style="margin-top:8px">IDLE</div>
+    </div>
+    <div class="card"><h3>CONTROL</h3>
+      <div class="actions">
+        <button class="btn sm" id="siStatus">REFRESH STATUS</button>
+        <button class="btn sm" id="siCheck">CHECK UPDATES</button>
+        <button class="btn sm" id="siLaunch">LAUNCH</button>
+        <button class="btn sm" id="siFolder">OPEN FOLDER</button>
+        <button class="btn sm" id="siCancel">CANCEL DL</button>
+        <button class="btn sm danger" id="siRemove">REMOVE</button>
+      </div>
+      <pre class="console" id="siOut" style="margin-top:12px">PRESS “REFRESH STATUS”.</pre>
+    </div>
+  </section>
+
+  <!-- 06 GUIDE -->
+  <section class="page" id="pg-guide">
+    <div class="docket-head">
+      <span class="plate">APPENDIX G · FIELD MANUAL</span>
+      <h2>FIELD GUIDE</h2>
+      <p>Twelve numbered memory-reading methods for System Informer. Offense-agnostic, evidence-first. Filters are authoritative — copy them verbatim.</p>
+      <div class="actions">
+        <button class="btn sm" data-go="overview">← BOARD</button>
+      </div>
+    </div>
+    <div class="readfirst">■ READ FIRST — NIGHTLY BUILD + DRIVER ON + STRINGS LENGTH 4 (EXTENDED UNICODE + MAPPED + IMAGE). WITHOUT THIS, EVERY CARD BELOW SILENTLY MISSES EVIDENCE.</div>
+    <div class="triage">
+      <h3>TRIAGE ORDER</h3>
+      <ol>
+        <li><b>1</b> PREPARE — NIGHTLY SI, DRIVER ON, CORRECT STRINGS OPTIONS.</li>
+        <li><b>2</b> SERVICES — FROZEN-THREAD CHECK BEFORE ANYTHING ELSE.</li>
+        <li><b>3</b> MEMORY SWEEP — DPS, CSRSS TWINS, PCASVC.</li>
+        <li><b>4</b> PERSISTENCE + HIDING — SCHEDULER, INDEXER, OFF-C DISKS, WIPE RESIDUE.</li>
+        <li><b>5</b> DEVICES + VERDICT — HARDWARE TRACES, THEN CROSS-CHECK EVERY HIT.</li>
+      </ol>
+    </div>
+    <div class="gconsole">
+      <input id="gSearch" class="search" placeholder="SEARCH CARDS: DPS, CSRSS, SCHEDULER…  ( / )" />
+      <span id="gCount" class="meta mono"></span>
+      <button class="btn sm" id="gExpand">EXPAND ALL</button>
+      <button class="btn sm" id="gCollapse">COLLAPSE</button>
+    </div>
+    <div id="guideList"></div>
+  </section>
+
+  <!-- 07 USN -->
+  <section class="page" id="pg-usn">
+    <div class="docket-head">
+      <span class="plate">EXHIBIT F · JOURNAL TRACES</span>
+      <h2>USN EXPLORER</h2>
+      <p>Live NTFS journal history for executables, libraries, jars and prefetch traces. Newest first. Click a row for details.</p>
+      <div class="actions">
+        <button class="btn sm" data-go="overview">← BOARD</button>
+        <select id="usnDrive" class="sel" title="Drive"></select>
+        <button class="btn sm primary" id="runUsn">▶ RUN USN SCAN</button>
+        <button class="btn sm" id="cancelUsn">CANCEL</button>
+        <button class="btn sm" id="expUsn">EXPORT JSON</button>
+      </div>
+    </div>
+    <div id="usnVerdict"></div>
+    <div class="tiles" id="usnTiles"></div>
+    <div class="filterbar">
+      <input id="usnFilter" class="search" placeholder="SEARCH: NAME, PATH…" />
+      <div class="checks" id="usnChips">
+        <label><input type="checkbox" data-k=".exe" checked />EXE</label>
+        <label><input type="checkbox" data-k=".dll" checked />DLL</label>
+        <label><input type="checkbox" data-k=".jar" checked />JAR</label>
+        <label><input type="checkbox" data-k=".pf" checked />PF</label>
+        <label><input type="checkbox" data-k="session" class="sess" />THIS SESSION</label>
+      </div>
+      <select id="usnSort" class="sel">
+        <option value="new">NEWEST FIRST</option>
+        <option value="old">OLDEST FIRST</option>
+        <option value="name">A–Z NAME</option>
+      </select>
+      <span id="usnMeta" class="meta"></span>
+    </div>
+    <div class="tblwrap"><div id="usnOut"><div class="empty">NO DATA — PICK A DRIVE AND RUN.</div></div></div>
+  </section>
+
+  <!-- 08 EV -->
+  <section class="page" id="pg-ev">
+    <div class="docket-head">
+      <span class="plate">EXHIBIT H · FILE HUNT</span>
+      <h2>EVERYTHING</h2>
+      <p>Instant filename search across every disk. Query syntax lives on guide card 13.</p>
+      <div class="actions">
+        <button class="btn sm" data-go="overview">← BOARD</button>
+        <button class="btn sm primary" id="evDownload">↓ DOWNLOAD + LAUNCH</button>
+        <button class="btn sm" data-go="guide">OPEN FIELD GUIDE →</button>
+      </div>
+    </div>
+    <div id="evBanner"></div>
+    <div class="sigrid" id="evTiles"></div>
+    <div class="card"><h3>DOWNLOAD PROGRESS</h3>
+      <div class="prog"><div id="evBar"></div></div>
+      <div id="evStage" class="meta" style="margin-top:8px">IDLE</div>
+    </div>
+    <div class="card"><h3>CONTROL</h3>
+      <div class="actions">
+        <button class="btn sm" id="evStatus">REFRESH STATUS</button>
+        <button class="btn sm" id="evLaunch">LAUNCH</button>
+        <button class="btn sm" id="evFolder">OPEN FOLDER</button>
+        <button class="btn sm" id="evCancel">CANCEL DL</button>
+        <button class="btn sm danger" id="evRemove">REMOVE</button>
+      </div>
+      <pre class="console" id="evOut" style="margin-top:12px">PRESS “REFRESH STATUS”.</pre>
+    </div>
+  </section>
+
+  <!-- 09 TIME -->
+  <section class="page" id="pg-time">
+    <div class="docket-head">
+      <span class="plate">APPENDIX T · FUSED TIMELINE</span>
+      <h2>CASE TIMELINE</h2>
+      <p>Every timestamped finding from every completed scan, merged newest-first. Empty modules are skipped silently.</p>
+      <div class="actions">
+        <button class="btn sm" data-go="overview">← BOARD</button>
+        <button class="btn sm primary" id="tlRefresh">↻ REFRESH</button>
+        <span id="tlMeta" class="meta"></span>
+      </div>
+    </div>
+    <div class="card"><h3>SETTINGS</h3>
+      <div class="filterbar">
+        <span class="meta">CASE DIR</span>
+        <input id="setDir" class="search" placeholder="CASE DIRECTORY…" />
+        <button class="btn sm" id="setBrowse">BROWSE…</button>
+        <button class="btn sm primary" id="setSave">SAVE</button>
+        <span id="setMsg" class="meta"></span>
+      </div>
+      <div class="filterbar">
+        <span class="meta">MC PROFILES</span>
+        <button class="btn sm" id="mcRescan">↻ RESCAN</button>
+        <button class="btn sm" id="mcAdd">+ ADD DIR…</button>
+        <span id="mcMsg" class="meta"></span>
+      </div>
+      <div id="mcProfList"><div class="empty">SCANNING FOR MINECRAFT DIRECTORIES…</div></div>
+      <div class="filterbar">
+        <div class="checks" id="tlMods">
+          <label><input type="checkbox" data-k="services" checked />SERVICES</label>
+          <label><input type="checkbox" data-k="scheduler" checked />TASKS</label>
+          <label><input type="checkbox" data-k="leftovers" checked />LEFTOVERS</label>
+          <label><input type="checkbox" data-k="prefetch" checked />PREFETCH</label>
+          <label><input type="checkbox" data-k="amcache" checked />AMCACHE</label>
+          <label><input type="checkbox" data-k="bam" checked />BAM</label>
+          <label><input type="checkbox" data-k="alts" checked />ALTS</label>
+          <label><input type="checkbox" data-k="usn" checked />USN</label>
+        </div>
+        <label class="meta"><input type="checkbox" id="tlSession" /> SESSION ONLY</label>
+        <select id="tlMax" class="sel">
+          <option value="500">500 ROWS</option>
+          <option value="1000" selected>1000 ROWS</option>
+          <option value="2500">2500 ROWS</option>
+        </select>
+      </div>
+    </div>
+    <div class="tblwrap"><div id="tlOut"><div class="empty">NO DATA — RUN SCANS, THEN REFRESH.</div></div></div>
+  </section>
+
+  <!-- 10 CHECK -->
+  <section class="page" id="pg-check">
+    <div class="docket-head">
+      <span class="plate">FIELD CHECKLIST</span>
+      <h2>SESSION CHECKLIST</h2>
+      <p>Tick off each step as you work the box. State persists per machine.</p>
+      <div class="actions">
+        <button class="btn sm" data-go="overview">← BOARD</button>
+        <button class="btn sm danger" id="chkReset">RESET ALL</button>
+        <span id="chkMeta" class="meta"></span>
+      </div>
+    </div>
+    <div class="prog" style="margin-bottom:14px"><div id="chkBar"></div></div>
+    <div id="chkList"></div>
+  </section>
+</main>
+
+<nav id="dock">
+  <button data-pg="overview" class="active"><b>00</b>OVERVIEW</button>
+  <button data-pg="services"><b>01</b>SERVICES</button>
+  <button data-pg="prefetch"><b>02</b>PREFETCH</button>
+  <button data-pg="bam"><b>03</b>BAM</button>
+  <button data-pg="alts"><b>04</b>ALTS</button>
+  <button data-pg="sysinfo"><b>05</b>SI</button>
+  <button data-pg="guide"><b>06</b>GUIDE</button>
+  <button data-pg="usn"><b>07</b>USN</button>
+  <button data-pg="ev"><b>08</b>EV</button>
+  <button data-pg="time"><b>09</b>TIME</button>
+  <button data-pg="check"><b>10</b>CHECK</button>
+</nav>
+
+<div id="modal" class="hidden">
+  <div class="mbox">
+    <h3 id="mTitle">—</h3>
+    <div class="msub mono" id="mSub">—</div>
+    <div class="mtabs" id="mTabs"></div>
+    <div id="mBody"></div>
+    <div class="mrow"><button class="btn sm" id="mClose">CLOSE [ESC]</button></div>
+  </div>
+</div>
+
+<div id="toast" class="hidden"></div>
+
+<script src="bg.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
